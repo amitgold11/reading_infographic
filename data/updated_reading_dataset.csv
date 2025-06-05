@@ -1,0 +1,39 @@
+Date,Pages Read,Time of Day,Duration (min),Distraction Level,Environment,Mood
+2025-04-21,30,Morning,30,3,Noisy Cafe,3
+2025-04-22,75,Evening,120,1,Quiet Home,4
+2025-04-23,100,Evening,140,2,Moderate Home,5
+2025-04-24,40,Afternoon,40,1,Library,4
+2025-04-25,29,Morning,39,4,Noisy Cafe,3
+2025-04-26,44,Afternoon,63,1,Library,4
+2025-04-27,34,Morning,44,5,Noisy Cafe,3
+2025-04-28,41,Morning,76,1,Quiet Cafe,4
+2025-04-29,11,Afternoon,11,2,Library,2
+2025-04-30,52,Evening,82,4,Home,4
+2025-05-01,27,Morning,37,5,Noisy Cafe,2
+2025-05-02,0,Afternoon,12,4,Noisy Cafe,1
+2025-05-03,39,Morning,55,4,Noisy Cafe,2
+2025-05-04,21,Afternoon,33,2,Quiet Cafe,3
+2025-05-05,9,Evening,10,3,Noisy Cafe,3
+2025-05-06,51,Afternoon,73,2,Quiet Cafe,3
+2025-05-07,12,Afternoon,17,2,Quiet Cafe,3
+2025-05-08,62,Afternoon,88,1,Quiet Cafe,4
+2025-05-09,30,Evening,40,1,Quiet Cafe,4
+2025-05-10,25,Afternoon,42,2,Library,4
+2025-05-11,11,Afternoon,21,5,Noisy Cafe,2
+2025-05-12,39,Evening,56,2,Quiet Cafe,4
+2025-05-13,20,Afternoon,29,2,Library,3
+2025-05-14,0,Morning,1,1,Library,3
+2025-05-15,58,Evening,93,1,Library,4
+2025-05-16,17,Morning,18,1,Library,2
+2025-05-17,9,Morning,15,1,Quiet Cafe,3
+2025-05-18,27,Evening,50,3,Noisy Cafe,2
+2025-05-19,22,Morning,42,4,Noisy Cafe,3
+2025-05-20,0,Afternoon,15,3,Home,3
+2025-05-21,5,Afternoon,10,1,Library,3
+2025-05-22,16,Morning,20,2,Home,2
+2025-05-23,13,Evening,20,4,Home,2
+2025-05-24,15,Afternoon,15,1,Quiet Cafe,3
+2025-05-25,17,Evening,22,3,Home,3
+2025-05-26,19,Morning,27,2,Library,3
+2025-05-27,28,Morning,49,2,Quiet Cafe,4
+2025-05-28,25,Morning,37,1,Quiet Cafe,4
