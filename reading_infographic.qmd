@@ -1,5 +1,36 @@
 ---
-title: "reading_infographic"
+title: "Reading Infographic"
+author: "Amit Goldberg"
+date: "2025-06-05"
 format: html
 ---
 
+
+```{r setup}
+# Load required libraries
+library(tidyverse)
+library(here)
+
+# Read in dataset
+reading_data <- read_csv(here("data", "updated_reading_dataset.csv"))
+```
+
+### Plot 1: Mood by Environment (Boxplot + Jitter)
+```{r boxplot-jitter}
+# Plot 1: Mood by Reading Environment
+ggplot(reading_data, aes(x = Environment, y = Mood, fill = Environment)) +
+  geom_boxplot(show.legend = FALSE, alpha = 0.6, outlier.shape = NA) +
+  geom_jitter(width = 0.2, color = "black", alpha = 0.5, size = 2) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Mood While Reading by Environment",
+    subtitle = "Quieter settings correlate with higher mood",
+    x = "Reading Environment",
+    y = "Mood Rating (1 = low, 5 = high)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    plot.subtitle = element_text(size = 12)
+  )
+```
