@@ -34,3 +34,31 @@ ggplot(reading_data, aes(x = Environment, y = Mood, fill = Environment)) +
     plot.subtitle = element_text(size = 12)
   )
 ```
+Mood ratings were highest in quiet environments like libraries and quiet cafes. Noisier spaces tended to lower my reading mood.
+
+
+### Plot 2: Pages Read by Environment and Time of Day (Grouped Bar Plot)
+```{r bar-plot}
+# Summarize total pages read by environment and time of day
+pages_by_env_time <- reading_data %>%
+  group_by(Environment, `Time of Day`) %>%
+  summarize(Total_Pages = sum(`Pages Read`, na.rm = TRUE), .groups = "drop")
+
+# Create grouped bar plot
+ggplot(pages_by_env_time, aes(x = Environment, y = Total_Pages, fill = `Time of Day`)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "When and Where I Read the Most",
+    subtitle = "Grouped by Environment and Time of Day",
+    x = "Reading Environment",
+    y = "Total Pages Read",
+    fill = "Time of Day"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    plot.subtitle = element_text(size = 12)
+  )
+```
+I read the most in libraries during the afternoon. Quiet settings and daytime hours support better focus and page count.
