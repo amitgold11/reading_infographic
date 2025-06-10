@@ -254,58 +254,73 @@ date (1): Date
 </div>
 <p>Longer sessions usually led to more pages read, but some environments helped me read more efficiently — finishing more pages in less time.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fmsb)    <span class="co"># For radar charts</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)   <span class="co"># For data wrangling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)   <span class="co"># For data wrangling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="plot-4-comparing-environments-across-metrics-radar-chart" class="level3">
-<h3 class="anchored" data-anchor-id="plot-4-comparing-environments-across-metrics-radar-chart">Plot 4: Comparing Environments Across Metrics (Radar Chart)</h3>
+<section id="plot-4-mood-over-time-tile-plot" class="level3">
+<h3 class="anchored" data-anchor-id="plot-4-mood-over-time-tile-plot">Plot 4: Mood Over Time (Tile Plot)</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot 4: Radar Chart – Comparing Environments</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot 4: Tile Plot – Mood Over Time</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize average mood, pages, and duration for each environment</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>env_summary <span class="ot">&lt;-</span> reading_data <span class="sc">%&gt;%</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Environment) <span class="sc">%&gt;%</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mood =</span> <span class="fu">mean</span>(Mood, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Pages =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Pages Read</span><span class="st">`</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Duration =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Duration (min)</span><span class="st">`</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Reformat for radar chart (fmsb requires min/max rows)</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add max and min rows to bound the radar chart scale</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>radar_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="fu">max</span>(env_summary<span class="sc">$</span>Pages), <span class="fu">max</span>(env_summary<span class="sc">$</span>Duration)),</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  env_summary[, <span class="sc">-</span><span class="dv">1</span>]  <span class="co"># Remove Environment column</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Set row names as environments + min/max</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(radar_data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Max"</span>, <span class="st">"Min"</span>, env_summary<span class="sc">$</span>Environment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Setting row names on a tibble is deprecated.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create radar chart</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">radarchart</span>(radar_data,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">axistype =</span> <span class="dv">1</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">pcol =</span> <span class="fu">c</span>(<span class="st">"gray"</span>, <span class="st">"black"</span>, <span class="st">"tomato"</span>, <span class="st">"forestgreen"</span>, <span class="st">"dodgerblue"</span>, <span class="st">"gold"</span>),</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">plwd =</span> <span class="dv">2</span>,</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">plty =</span> <span class="dv">1</span>,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cglcol =</span> <span class="st">"grey80"</span>,</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cglty =</span> <span class="dv">1</span>,</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">axislabcol =</span> <span class="st">"grey20"</span>,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">caxislabels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>),</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">vlcex =</span> <span class="fl">0.8</span>,</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"How Environments Compare Across Mood, Pages, and Duration"</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure Date column is in Date format</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>reading_data <span class="ot">&lt;-</span> reading_data <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(Date)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Date)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a tile-style mood strip plot</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(reading_data, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> <span class="dv">1</span>, <span class="at">fill =</span> Mood)) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>, <span class="at">height =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"#4575b4"</span>, <span class="st">"#91bfdb"</span>, <span class="st">"#e0f3f8"</span>, <span class="st">"#fee090"</span>, <span class="st">"#fc8d59"</span>, <span class="st">"#d73027"</span>),</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>),</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Mood"</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"How My Mood Shifted Over Time While Reading"</span>,</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Each tile represents one day; colors reflect mood"</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">16</span>),</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="reading_infographic_files/figure-html/radar-chart-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="reading_infographic_files/figure-html/tile-plot-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>This mood strip shows how my reading mood changed over time. Streaks of cool or warm tones reveal periods of high or low mood while reading.</p>
+</section>
+<section id="write-up" class="level3">
+<h3 class="anchored" data-anchor-id="write-up">Write-Up</h3>
+<section id="what-patterns-are-you-highlighting-in-each-visualization-why" class="level4">
+<h4 class="anchored" data-anchor-id="what-patterns-are-you-highlighting-in-each-visualization-why">What patterns are you highlighting in each visualization? Why?</h4>
+<p>In the boxplot (Plot 1), I wanted to highlight how my mood varied across reading environments. It felt worth exploring because I noticed I tend to feel better in certain settings and this made it really clear. The grouped bar chart (Plot 2) let me compare how often I read in each environment and what the average mood was. I liked this one because it helped balance quantity with quality. The scatter plot (Plot 3) looked at reading efficiency — do longer sessions actually lead to more pages? Turns out, yes, but some spaces help me stay focused more than others. Finally, I created a mood strip (Plot 4) inspired by Ellie Highwood’s temperature blanket. It gave me a cool way to see how my mood shifted over time. I could spot streaks of good or not-so-good days visually.</p>
+</section>
+<section id="outside-of-the-data-visualization-what-aesthetic-choices-e.g.-color-font-arrangement-did-you-make-and-why" class="level4">
+<h4 class="anchored" data-anchor-id="outside-of-the-data-visualization-what-aesthetic-choices-e.g.-color-font-arrangement-did-you-make-and-why">Outside of the data visualization, what aesthetic choices (e.g.&nbsp;color, font, arrangement) did you make and why?</h4>
+<p>I kept things minimal and clean so the focus stayed on the patterns in the data. I used color to carry the emotion, especially in the strip plot, where it helps you feel the changes over time. I also used straightforward titles and added some spacing between visuals in the infographic to keep it from feeling cluttered. Everything was arranged in a way that felt easy to follow from one plot to the next.</p>
+</section>
+<section id="for-each-visualization-describe-what-examples-inspired-that-visualization-cite-the-author" class="level4">
+<h4 class="anchored" data-anchor-id="for-each-visualization-describe-what-examples-inspired-that-visualization-cite-the-author">For each visualization, describe what examples inspired that visualization (cite the author)</h4>
+<p>Plot 1 was based on a jittered boxplot example we saw in class, and I liked how it showed both the range of values and individual points. For Plot 2, I followed a typical grouped bar chart format and tried to balance clarity and color to compare frequency and mood across environments. Plot 3 is a classic scatter plot with a smoothing line — I wanted it to show the relationship between reading time and pages read, and I used examples from online ggplot guides to figure out the styling. Plot 4 was inspired by temperature blanket visuals I’ve seen before, especially Ellie Highwood’s climate change piece. I liked the idea of showing mood over time through color, and wanted to try something visually similar for my own data.</p>
+</section>
+<section id="describe-your-coding-process" class="level4">
+<h4 class="anchored" data-anchor-id="describe-your-coding-process">Describe your coding process</h4>
+<p>I started by cleaning up the data. I made sure the date column was in the right format and double-checked for any missing values. I also summarized mood, pages read, and duration by environment to make certain plots easier to work with. For the first few visualizations, I stuck with geoms we used in class like <code>geom_boxplot</code>, <code>geom_jitter</code>, and <code>geom_col</code>. Once I felt more confident, I experimented with new ones like <code>geom_tile</code> for the strip plot. I also tried a radar chart using the <code>fmsb</code> package but ended up replacing it because it didn’t really communicate anything useful. Throughout the process, I adjusted color scales, added annotations, and tweaked themes to improve clarity. I committed my progress regularly to GitHub, which helped me stay organized and keep track of what was working (and what wasn’t).</p>
+</section>
+<section id="tools-used" class="level4">
+<h4 class="anchored" data-anchor-id="tools-used">Tools used</h4>
+<p>I used R and packages like ggplot2, dplyr, and fmsb (briefly). I used Canva to build the final infographic and GitHub for version control. I looked at examples from TidyTuesday, R Graph Gallery, and some of the code we worked on in class. I also used ChatGPT a couple times to refine code, troubleshoot weird errors, and pick color scales.</p>
+</section>
 </section>
 
 </main>
