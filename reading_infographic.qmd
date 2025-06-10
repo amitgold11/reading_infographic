@@ -138,3 +138,32 @@ ggplot(reading_data, aes(x = Date, y = 1, fill = Mood)) +
   )
 ```
 This mood strip shows how my reading mood changed over time. Streaks of cool or warm tones reveal periods of high or low mood while reading.
+
+
+### Write-Up
+
+#### What patterns are you highlighting in each visualization? Why?
+
+In the boxplot (Plot 1), I wanted to highlight how my mood varied across reading environments. It felt worth exploring because I noticed I tend to feel better in certain settings and this made it really clear. The grouped bar chart (Plot 2) let me compare how often I read in each environment and what the average mood was. I liked this one because it helped balance quantity with quality. The scatter plot (Plot 3) looked at reading efficiency — do longer sessions actually lead to more pages? Turns out, yes, but some spaces help me stay focused more than others. Finally, I created a mood strip (Plot 4) inspired by Ellie Highwood's temperature blanket. It gave me a cool way to see how my mood shifted over time. I could spot streaks of good or not-so-good days visually.
+
+#### Outside of the data visualization, what aesthetic choices (e.g. color, font, arrangement) did you make and why?
+
+I kept things minimal and clean so the focus stayed on the patterns in the data. I used color to carry the emotion, especially in the strip plot, where it helps you feel the changes over time. I also used straightforward titles and added some spacing between visuals in the infographic to keep it from feeling cluttered. Everything was arranged in a way that felt easy to follow from one plot to the next.
+
+#### For each visualization, describe what examples inspired that visualization (cite the author)
+
+Plot 1 was based on a jittered boxplot example we saw in class, and I liked how it showed both the range of values and individual points. For Plot 2, I followed a typical grouped bar chart format and tried to balance clarity and color to compare frequency and mood across environments. Plot 3 is a classic scatter plot with a smoothing line — I wanted it to show the relationship between reading time and pages read, and I used examples from online ggplot guides to figure out the styling. Plot 4 was inspired by temperature blanket visuals I’ve seen before, especially Ellie Highwood’s climate change piece. I liked the idea of showing mood over time through color, and wanted to try something visually similar for my own data.
+
+#### Describe your coding process
+
+I started by cleaning up the data. I made sure the date column was in the right format and double-checked for any missing values. I also summarized mood, pages read, and duration by environment to make certain plots easier to work with. For the first few visualizations, I stuck with geoms we used in class like `geom_boxplot`, `geom_jitter`, and `geom_col`. Once I felt more confident, I experimented with new ones like `geom_tile` for the strip plot. I also tried a radar chart using the `fmsb` package but ended up replacing it because it didn’t really communicate anything useful. Throughout the process, I adjusted color scales, added annotations, and tweaked themes to improve clarity. I committed my progress regularly to GitHub, which helped me stay organized and keep track of what was working (and what wasn’t).
+
+#### Tools used
+
+I used R and packages like ggplot2, dplyr, and fmsb (briefly). I used Canva to build the final infographic and GitHub for version control. I looked at examples from TidyTuesday, R Graph Gallery, and some of the code we worked on in class. I also used ChatGPT a couple times to refine code, troubleshoot weird errors, and pick color scales.
+
+
+
+
+
+
