@@ -102,8 +102,39 @@ ggplot(reading_data, aes(x = `Duration (min)`, y = `Pages Read`, color = Environ
 Longer sessions usually led to more pages read, but some environments helped me read more efficiently — finishing more pages in less time.
 
 ```{r setup for plot 4}
-library(fmsb)    # For radar charts
 library(dplyr)   # For data wrangling
 ```
 
-### Plot 4: 
+### Plot 4: Mood Over Time (Tile Plot)
+```{r tile-plot}
+## Plot 4: Tile Plot – Mood Over Time
+
+# Ensure Date column is in Date format
+reading_data <- reading_data %>%
+  mutate(Date = as.Date(Date)) %>%
+  arrange(Date)
+
+# Create a tile-style mood strip plot
+ggplot(reading_data, aes(x = Date, y = 1, fill = Mood)) +
+  geom_tile(color = "white", height = 1) +
+  scale_fill_gradientn(
+    colors = c("#4575b4", "#91bfdb", "#e0f3f8", "#fee090", "#fc8d59", "#d73027"),
+    limits = c(1, 5),
+    name = "Mood"
+  ) +
+  labs(
+    title = "How My Mood Shifted Over Time While Reading",
+    subtitle = "Each tile represents one day; colors reflect mood",
+    x = "Date",
+    y = NULL
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.grid = element_blank(),
+    plot.title = element_text(face = "bold", size = 16),
+    plot.subtitle = element_text(size = 12)
+  )
+```
+This mood strip shows how my reading mood changed over time. Streaks of cool or warm tones reveal periods of high or low mood while reading.
